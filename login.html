@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>LogisticsPro - Secure Onboarding</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            background-color: #051424;
+            color: #d4e4fa;
+            -webkit-font-smoothing: antialiased;
+        }
+        .login-card {
+            background: rgba(18, 33, 49, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .role-radio:checked + label {
+            background-color: rgba(175, 198, 255, 0.15);
+            border-color: #afc6ff;
+            color: #afc6ff;
+        }
+        /* Code Input Box */
+        .otp-input {
+            width: 48px;
+            height: 48px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            background-color: #010f1f;
+            border: 1px solid #44474a;
+            border-radius: 6px;
+            color: #d4e4fa;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .otp-input:focus {
+            border-color: #afc6ff;
+            box-shadow: 0 0 0 2px rgba(175, 198, 255, 0.25);
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden min-h-screen flex items-center justify-center p-edge-margin relative">
+    
+    <!-- Background visual mesh -->
+    <div class="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none"></div>
+
+    <main class="w-full max-w-md z-10 flex flex-col items-center">
+        <!-- Header -->
+        <header class="mb-6 text-center">
+            <div class="inline-flex items-center justify-center mb-2">
+                <span class="material-symbols-outlined text-[#afc6ff] text-4xl mr-2">local_shipping</span>
+                <h1 class="text-headline-lg font-headline-lg text-on-surface tracking-tight uppercase font-bold text-2xl">Logistics<span class="text-[#afc6ff]">Pro</span></h1>
+            </div>
+            <p class="text-on-surface-variant font-body-md opacity-70">Enterprise Fleet Management System</p>
+        </header>
+
+        <!-- Dynamic Card -->
+        <div class="login-card border border-outline-variant p-6 md:p-8 rounded-xl shadow-2xl w-full">
+            
+            <!-- VIEW 1: SIGN IN -->
+            <div id="panel-login" class="fade-in">
+                <h2 class="text-xl font-bold mb-4 text-on-surface">Secure Sign In</h2>
+                <form class="space-y-4" onsubmit="submitLogin(event)">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold tracking-wider text-outline uppercase block opacity-85">Access Role</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <input class="role-radio hidden" id="login-role-manager" name="role" type="radio" value="manager" checked/>
+                                <label class="flex flex-col items-center justify-center py-2 px-1 border border-slate-700 rounded bg-slate-900/50 text-slate-400 cursor-pointer transition-all hover:bg-slate-800" for="login-role-manager">
+                                    <span class="material-symbols-outlined text-base mb-1">analytics</span>
+                                    <span class="text-[9px] font-bold uppercase tracking-wider">Manager</span>
+                                </label>
+                            </div>
+                            <div>
+                                <input class="role-radio hidden" id="login-role-dispatcher" name="role" type="radio" value="dispatcher"/>
+                                <label class="flex flex-col items-center justify-center py-2 px-1 border border-slate-700 rounded bg-slate-900/50 text-slate-400 cursor-pointer transition-all hover:bg-slate-800" for="login-role-dispatcher">
+                                    <span class="material-symbols-outlined text-base mb-1">route</span>
+                                    <span class="text-[9px] font-bold uppercase tracking-wider">Dispatch</span>
+                                </label>
+                            </div>
+                            <div>
+                                <input class="role-radio hidden" id="login-role-driver" name="role" type="radio" value="driver"/>
+                                <label class="flex flex-col items-center justify-center py-2 px-1 border border-slate-700 rounded bg-slate-900/50 text-slate-400 cursor-pointer transition-all hover:bg-slate-800" for="login-role-driver">
+                                    <span class="material-symbols-outlined text-base mb-1">person_pin</span>
+                                    <span class="text-[9px] font-bold uppercase tracking-wider">Driver</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-[10px] font-bold tracking-wider text-outline uppercase mb-1 block opacity-85" for="login-email">Email Address</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-lg">mail</span>
+                                <input class="w-full bg-slate-950 border border-slate-700 focus:border-[#afc6ff] focus:ring-1 focus:ring-[#afc6ff]/30 text-on-surface pl-10 pr-4 py-2.5 rounded transition-all placeholder:text-slate-600 outline-none" id="login-email" placeholder="manager@logisticspro.com" type="email" required value="ops@logisticspro.in"/>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold tracking-wider text-outline uppercase mb-1 block opacity-85" for="login-password">Password</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-lg">lock</span>
+                                <input class="w-full bg-slate-950 border border-slate-700 focus:border-[#afc6ff] focus:ring-1 focus:ring-[#afc6ff]/30 text-on-surface pl-10 pr-10 py-2.5 rounded transition-all placeholder:text-slate-600 outline-none" id="login-password" placeholder="••••••••••••" type="password" required value="password123"/>
+                                <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors" type="button" onclick="togglePassword('login-password', this)">
+                                    <span class="material-symbols-outlined text-lg">visibility</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between text-xs py-1">
+                        <label class="flex items-center cursor-pointer group">
+                            <input class="rounded border-slate-700 bg-slate-950 text-[#254583] focus:ring-0" type="checkbox" checked/>
+                            <span class="ml-2 text-slate-400 group-hover:text-slate-200 transition-colors">Remember Me</span>
+                        </label>
+                        <a class="text-[#afc6ff] hover:underline" href="#" onclick="alert('Demo: Select role and login directly.')">Forgot Password?</a>
+                    </div>
+
+                    <button class="w-full h-11 bg-[#254583] text-[#afc6ff] hover:bg-[#afc6ff] hover:text-[#001944] font-bold text-xs uppercase tracking-widest rounded transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4" type="submit">
+                        Sign In
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </button>
+                </form>
+                <div class="mt-6 pt-4 border-t border-slate-800 text-center text-xs text-slate-400">
+                    Don't have an account? 
+                    <button class="text-[#afc6ff] font-bold hover:underline ml-1" onclick="showPanel('register')">Create Account</button>
+                </div>
+            </div>
+
+            <!-- VIEW 2: CREATE ACCOUNT -->
+            <div id="panel-register" class="fade-in hidden">
+                <h2 class="text-xl font-bold mb-4 text-on-surface">Register Account</h2>
+                <form class="space-y-4" onsubmit="submitRegister(event)">
+                    <div>
+                        <label class="text-[10px] font-bold tracking-wider text-outline uppercase mb-1 block opacity-85" for="reg-name">Full Name</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-lg">person</span>
+                            <input class="w-full bg-slate-950 border border-slate-700 focus:border-[#afc6ff] focus:ring-1 focus:ring-[#afc6ff]/30 text-on-surface pl-10 pr-4 py-2.5 rounded transition-all placeholder:text-slate-600 outline-none" id="reg-name" placeholder="John Doe" type="text" required/>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold tracking-wider text-outline uppercase mb-1 block opacity-85" for="reg-email">Email Address</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-lg">mail</span>
+                            <input class="w-full bg-slate-950 border border-slate-700 focus:border-[#afc6ff] focus:ring-1 focus:ring-[#afc6ff]/30 text-on-surface pl-10 pr-4 py-2.5 rounded transition-all placeholder:text-slate-600 outline-none" id="reg-email" placeholder="john.doe@logisticspro.com" type="email" required/>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold tracking-wider text-outline uppercase mb-1 block opacity-85" for="reg-password">Password</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-lg">lock</span>
+                            <input class="w-full bg-slate-950 border border-slate-700 focus:border-[#afc6ff] focus:ring-1 focus:ring-[#afc6ff]/30 text-on-surface pl-10 pr-10 py-2.5 rounded transition-all placeholder:text-slate-600 outline-none" id="reg-password" placeholder="••••••••••••" type="password" required/>
+                            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors" type="button" onclick="togglePassword('reg-password', this)">
+                                <span class="material-symbols-outlined text-lg">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold tracking-wider text-outline uppercase block opacity-85">Access Role</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <input class="role-radio hidden" id="reg-role-manager" name="reg-role" type="radio" value="manager" checked/>
+                                <label class="flex flex-col items-center justify-center py-2 px-1 border border-slate-700 rounded bg-slate-900/50 text-slate-400 cursor-pointer transition-all hover:bg-slate-800" for="reg-role-manager">
+                                    <span class="material-symbols-outlined text-base mb-1">analytics</span>
+                                    <span class="text-[9px] font-bold uppercase tracking-wider">Manager</span>
+                                </label>
+                            </div>
+                            <div>
+                                <input class="role-radio hidden" id="reg-role-dispatcher" name="reg-role" type="radio" value="dispatcher"/>
+                                <label class="flex flex-col items-center justify-center py-2 px-1 border border-slate-700 rounded bg-slate-900/50 text-slate-400 cursor-pointer transition-all hover:bg-slate-800" for="reg-role-dispatcher">
+                                    <span class="material-symbols-outlined text-base mb-1">route</span>
+                                    <span class="text-[9px] font-bold uppercase tracking-wider">Dispatch</span>
+                                </label>
+                            </div>
+                            <div>
+                                <input class="role-radio hidden" id="reg-role-driver" name="reg-role" type="radio" value="driver"/>
+                                <label class="flex flex-col items-center justify-center py-2 px-1 border border-slate-700 rounded bg-slate-900/50 text-slate-400 cursor-pointer transition-all hover:bg-slate-800" for="reg-role-driver">
+                                    <span class="material-symbols-outlined text-base mb-1">person_pin</span>
+                                    <span class="text-[9px] font-bold uppercase tracking-wider">Driver</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="w-full h-11 bg-[#254583] text-[#afc6ff] hover:bg-[#afc6ff] hover:text-[#001944] font-bold text-xs uppercase tracking-widest rounded transition-all active:scale-[0.98] flex items-center justify-center gap-2 mt-4" type="submit">
+                        Register Account
+                        <span class="material-symbols-outlined text-sm">how_to_reg</span>
+                    </button>
+                </form>
+                <div class="mt-6 pt-4 border-t border-slate-800 text-center text-xs text-slate-400">
+                    Already have an account? 
+                    <button class="text-[#afc6ff] font-bold hover:underline ml-1" onclick="showPanel('login')">Sign In</button>
+                </div>
+            </div>
+
+            <!-- VIEW 3: OTP VERIFICATION -->
+            <div id="panel-verify" class="fade-in hidden">
+                <h2 class="text-xl font-bold mb-2 text-on-surface flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#afc6ff]">verified_user</span>
+                    <span>Security Verification</span>
+                </h2>
+                <p class="text-xs text-slate-400 mb-6">A 6-digit confirmation code was dispatched. Enter it below to authorize this session.</p>
+                
+                <form class="space-y-6" onsubmit="submitVerification(event)">
+                    <!-- Code input boxes -->
+                    <div class="flex justify-between gap-1 max-w-xs mx-auto" id="otp-container">
+                        <input class="otp-input" maxlength="1" pattern="[0-9]" required type="text" oninput="otpMove(this, '')" onkeyup="otpBackspace(this, event)">
+                        <input class="otp-input" maxlength="1" pattern="[0-9]" required type="text" oninput="otpMove(this, '')" onkeyup="otpBackspace(this, event)">
+                        <input class="otp-input" maxlength="1" pattern="[0-9]" required type="text" oninput="otpMove(this, '')" onkeyup="otpBackspace(this, event)">
+                        <input class="otp-input" maxlength="1" pattern="[0-9]" required type="text" oninput="otpMove(this, '')" onkeyup="otpBackspace(this, event)">
+                        <input class="otp-input" maxlength="1" pattern="[0-9]" required type="text" oninput="otpMove(this, '')" onkeyup="otpBackspace(this, event)">
+                        <input class="otp-input" maxlength="1" pattern="[0-9]" required type="text" oninput="otpMove(this, '')" onkeyup="otpBackspace(this, event)">
+                    </div>
+
+                    <div class="text-center">
+                        <span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wider">
+                            TIP: Enter code 123456
+                        </span>
+                    </div>
+
+                    <button class="w-full h-11 bg-emerald-700 text-[#d4e4fa] hover:bg-emerald-500 hover:text-white font-bold text-xs uppercase tracking-widest rounded transition-all active:scale-[0.98] flex items-center justify-center gap-2" type="submit">
+                        Verify Code
+                        <span class="material-symbols-outlined text-sm">verified</span>
+                    </button>
+                </form>
+                <div class="mt-6 pt-4 border-t border-slate-800 text-center text-xs text-slate-400 flex justify-between px-2">
+                    <button class="text-[#afc6ff] font-bold hover:underline" onclick="alert('OTP Code resent to details!')">Resend Code</button>
+                    <button class="text-slate-500 font-bold hover:underline" onclick="showPanel('login')">Abort</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 flex flex-col items-center gap-1 opacity-50 text-[10px]">
+            <div class="flex items-center gap-2 text-slate-400">
+                <span class="material-symbols-outlined text-xs">shield</span>
+                <span class="font-mono uppercase tracking-wider">AES-256 Encrypted Connection</span>
+            </div>
+            <p class="font-mono text-slate-500 uppercase">© 2026 LogisticsPro Industrial Systems.</p>
+        </footer>
+    </main>
+
+    <!-- Side Graphic -->
+    <div class="fixed right-0 top-0 h-full w-1/3 pointer-events-none hidden lg:block overflow-hidden border-l border-slate-800 bg-slate-950">
+        <div class="absolute inset-0 opacity-15 flex items-center justify-center">
+            <div class="w-[800px] h-[800px] border border-blue-500/20 rounded-full animate-[spin_60s_linear_infinite]"></div>
+            <div class="absolute w-[600px] h-[600px] border border-slate-800 rounded-full animate-[spin_40s_linear_infinite_reverse]"></div>
+        </div>
+        <div class="h-full w-full flex items-center justify-center p-12">
+            <div class="w-full h-full max-h-[500px] rounded-xl border border-slate-800 bg-cover bg-center shadow-2xl relative overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA6tWvRIFDysUcjZPlLIJ6v1vAi58iapCB0ZgAPMTaXcVgJMwNfr9jiHWZxfVoMqjarxlw5JmFkw9AUb94ir8Bpx4Eh1x5yDKAByMKz-ekaAdVVms1nuAj-WqyzggaquiH8iyAGjjdET5xNn_kcMg4m5Aq874fpybYGaVmsyx-ypWwhMXLmobcVwnyPKM4B3L6hetj6WDyQnFQuyDOoG5wK6rOMd5erwG65UKy0hdA5OpbFSdFrgDsatQ')">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                <div class="absolute bottom-6 left-6 right-6">
+                    <p class="text-xs uppercase font-mono tracking-widest text-[#afc6ff] mb-1">Global Operations</p>
+                    <h3 class="text-lg font-bold text-white">Connecting Hubs Across Borders</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global Onboarding Data Cache
+        let currentAuthData = {};
+
+        // Panel Switching
+        function showPanel(panelName) {
+            document.getElementById("panel-login").classList.add("hidden");
+            document.getElementById("panel-register").classList.add("hidden");
+            document.getElementById("panel-verify").classList.add("hidden");
+
+            document.getElementById(`panel-${panelName}`).classList.remove("hidden");
+
+            // Focus on first input if verify panel opened
+            if (panelName === "verify") {
+                setTimeout(() => {
+                    const firstInput = document.querySelector(".otp-input");
+                    if (firstInput) firstInput.focus();
+                }, 100);
+            }
+        }
+
+        // Toggle Password visibility
+        function togglePassword(id, button) {
+            const pwd = document.getElementById(id);
+            const icon = button.querySelector(".material-symbols-outlined");
+            if (pwd.type === "password") {
+                pwd.type = "text";
+                icon.innerText = "visibility_off";
+            } else {
+                pwd.type = "password";
+                icon.innerText = "visibility";
+            }
+        }
+
+        // OTP inputs autofocus auto-movement
+        function otpMove(input, next) {
+            if (input.value.length === 1) {
+                const nextInput = input.nextElementSibling;
+                if (nextInput && nextInput.classList.contains("otp-input")) {
+                    nextInput.focus();
+                }
+            }
+        }
+
+        function otpBackspace(input, event) {
+            if (event.key === "Backspace" && input.value.length === 0) {
+                const prevInput = input.previousElementSibling;
+                if (prevInput && prevInput.classList.contains("otp-input")) {
+                    prevInput.focus();
+                }
+            }
+        }
+
+        // Handle Login Submission
+        function submitLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            const role = document.querySelector('input[name="role"]:checked').value;
+
+            // Load registered accounts
+            const defaultUsers = [
+                { email: "ops@logisticspro.in", name: "Alex Thompson", password: "password123", role: "manager" }
+            ];
+            const stored = localStorage.getItem("logisticspro_registered_users");
+            const userList = stored ? JSON.parse(stored) : defaultUsers;
+
+            // Find matching user
+            const match = userList.find(u => u.email === email && u.password === password && u.role === role);
+
+            if (!match && email !== "ops@logisticspro.in") {
+                alert("Error: Incorrect credentials or selected role mismatch.");
+                return;
+            }
+
+            // Cache data and show Verification step
+            currentAuthData = {
+                email: email,
+                name: match ? match.name : "Alex Thompson",
+                role: role
+            };
+
+            showPanel("verify");
+        }
+
+        // Handle Sign Up Submission
+        function submitRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById("reg-name").value;
+            const email = document.getElementById("reg-email").value;
+            const password = document.getElementById("reg-password").value;
+            const role = document.querySelector('input[name="reg-role"]:checked').value;
+
+            // Load and append to local storage user list
+            const defaultUsers = [
+                { email: "ops@logisticspro.in", name: "Alex Thompson", password: "password123", role: "manager" }
+            ];
+            const stored = localStorage.getItem("logisticspro_registered_users");
+            const userList = stored ? JSON.parse(stored) : defaultUsers;
+
+            if (userList.some(u => u.email === email)) {
+                alert("Error: Email address is already registered.");
+                return;
+            }
+
+            const newAccount = { email, name, password, role };
+            userList.push(newAccount);
+            localStorage.setItem("logisticspro_registered_users", JSON.stringify(userList));
+
+            currentAuthData = { email, name, role };
+            showPanel("verify");
+        }
+
+        // Validate OTP Verification
+        function submitVerification(e) {
+            e.preventDefault();
+            const inputs = document.querySelectorAll(".otp-input");
+            let enteredCode = "";
+            inputs.forEach(inp => enteredCode += inp.value);
+
+            if (enteredCode !== "123456") {
+                alert("Invalid security code. Please check code and try again.");
+                return;
+            }
+
+            // Save authenticated session info
+            sessionStorage.setItem("logisticspro_authenticated", "true");
+            sessionStorage.setItem("logisticspro_name", currentAuthData.name);
+            sessionStorage.setItem("logisticspro_role", currentAuthData.role);
+            sessionStorage.setItem("logisticspro_email", currentAuthData.email);
+
+            // Redirect
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
